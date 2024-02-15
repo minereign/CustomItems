@@ -10,11 +10,11 @@ public final class MinereignItems extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
-        this.getCommand("reloadconfig").setExecutor(new MinereignCommand(this));
+        this.RecipeManager = new CraftingRecipeManager();
+
+        this.getCommand("minereign").setExecutor(new MinereignCommand(this.RecipeManager));
 
         this.saveDefaultConfig();
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
-
-        this.RecipeManager = new CraftingRecipeManager(this);
     }
 }

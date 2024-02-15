@@ -17,18 +17,24 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static net.serahill.minereignItems.MinereignItems.plugin;
 import static org.bukkit.Bukkit.getLogger;
 
 public class CraftingRecipeManager {
     FileConfiguration config;
-    private final MinereignItems plugin;
     private Map<NamespacedKey, Recipe> registeredRecipes = new HashMap<>();
+    private static CraftingRecipeManager instance;
 
 
-    public CraftingRecipeManager(MinereignItems plugin) {
-        this.plugin = plugin;
-        config = plugin.getConfig();
+    public CraftingRecipeManager() {
         loadCustomRecipes();
+    }
+
+    public static CraftingRecipeManager getInstance() {
+        if (instance == null) {
+            instance = new CraftingRecipeManager();
+        }
+        return instance;
     }
 
     public void registerRecipe(Recipe recipe, NamespacedKey namespacedKey) {
@@ -41,6 +47,7 @@ public class CraftingRecipeManager {
         while (it.hasNext()) {
             Recipe recipe = it.next();
             if (recipe instanceof Keyed && registeredRecipes.containsKey(((Keyed) recipe).getKey())) {
+                getLogger().info("Unloaded recipe: " + ((Keyed) recipe).getKey());
                 it.remove();
             }
         }
@@ -50,6 +57,7 @@ public class CraftingRecipeManager {
 
 
     public void loadCustomRecipes() {
+        config = plugin.getConfig();
         for (String key : config.getConfigurationSection("recipes.shaped").getKeys(false)) {
             try {
                 ItemStack itemResult = new ItemStack(Material.valueOf(config.getString("recipes.shaped." + key + ".result")), config.getInt("recipes.shaped." + key + ".amount"));
@@ -65,7 +73,9 @@ public class CraftingRecipeManager {
                     recipe.setIngredient(ingredientKey.charAt(0), mat);
                 }
 
-                registerRecipe(recipe, recipeKey);
+                Bukkit.addRecipe(recipe);
+                getLogger().info("Registed recipe: " + key );
+                registeredRecipes.put(recipeKey, recipe);
             } catch (IllegalArgumentException e) {
                 getLogger().warning("Unable to load recipe for " + key);
             }
@@ -82,7 +92,9 @@ public class CraftingRecipeManager {
                     recipe.addIngredient(Material.valueOf(ingredient));
                 }
 
-                registerRecipe(recipe, recipeKey);
+                Bukkit.addRecipe(recipe);
+                getLogger().info("Registed recipe: " + key );
+                registeredRecipes.put(recipeKey, recipe);
             } catch (IllegalArgumentException e) {
                 getLogger().warning("Unable to load recipe for " + key);
             }

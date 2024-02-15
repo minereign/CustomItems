@@ -3,19 +3,17 @@ package net.serahill.minereignItems;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
+
+import static net.serahill.minereignItems.MinereignItems.plugin;
 
 public class MinereignCommand implements CommandExecutor {
     private final CraftingRecipeManager recipeManager;
-    private JavaPlugin plugin;
-    public MinereignCommand(MinereignItems plugin) {
-        this.plugin = plugin;
-        this.recipeManager = new CraftingRecipeManager(plugin);
+    public MinereignCommand(CraftingRecipeManager recipeManager) {
+        this.recipeManager = recipeManager;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
         if (command.getName().equalsIgnoreCase("minereign")) {
             if (args.length > 0 && args[0].equalsIgnoreCase("reload") && sender.hasPermission("minereign.reload")) {
                 recipeManager.unregisterRecipes();
