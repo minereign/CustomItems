@@ -47,15 +47,19 @@ public class CraftingRecipeManager {
         }
 
         for (String key : config.getConfigurationSection("recipes.shapeless").getKeys(false)) {
-            ItemStack itemResult = new ItemStack(Material.valueOf(config.getString("recipes.shapeless." + key + ".result")), config.getInt("recipes.shapeless." + key + ".amount"));
-            NamespacedKey recipeKey = new NamespacedKey(plugin, key);
-            ShapelessRecipe recipe = new ShapelessRecipe(recipeKey, itemResult);
+            try {
+                ItemStack itemResult = new ItemStack(Material.valueOf(config.getString("recipes.shapeless." + key + ".result")), config.getInt("recipes.shapeless." + key + ".amount"));
+                NamespacedKey recipeKey = new NamespacedKey(plugin, key);
+                ShapelessRecipe recipe = new ShapelessRecipe(recipeKey, itemResult);
 
-            List<String> ingredients = config.getStringList("recipes.shapeless." + key + ".ingredients");
-            for (String ingredient : ingredients) {
-                recipe.addIngredient(Material.valueOf(ingredient));
+                List<String> ingredients = config.getStringList("recipes.shapeless." + key + ".ingredients");
+                for (String ingredient : ingredients) {
+                    recipe.addIngredient(Material.valueOf(ingredient));
+                }
+                Bukkit.addRecipe(recipe);
+            } catch (IllegalArgumentException e) {
+                getLogger().warning("Unable to load recipe for " + key);
             }
-            Bukkit.addRecipe(recipe);
         }
 
 
