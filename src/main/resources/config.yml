@@ -1,0 +1,41 @@
+custom_items:
+  basic_key:
+    material: TRIPWIRE_HOOK
+    custom_model_data: 1
+    name: "Basic Key"
+    lore:
+      - "A key made of iron."
+      - "It feels warm to the touch."
+    nbt:
+      exampleKey: "ExampleValue"
+  silver_key:
+    material: TRIPWIRE_HOOK
+    custom_model_data: 2
+    name: "Silver Key"
+    lore:
+      - "A key made of silver."
+      - "It feels cold to the touch."
+    nbt:
+      exampleKey: "ExampleValue"
+
+recipes:
+  shaped:
+    silver_key:
+      result: silver_key
+      amount: 1
+      shape:
+        - "AAA"
+        - " B "
+        - " C "
+      ingredients:
+        A: DIAMOND_BLOCK
+        B: basic_key
+        C: IRON_INGOT
+  shapeless:
+    custom_bread:
+      result: BREAD
+      amount: 3
+      ingredients:
+        - WHEAT
+        - WHEAT
+        - WHEAT
