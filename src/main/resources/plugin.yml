@@ -1,0 +1,4 @@
+name: rareOre
+version: '${project.version}'
+main: net.serahill.rareore.RareOre
+api-version: '1.20'
