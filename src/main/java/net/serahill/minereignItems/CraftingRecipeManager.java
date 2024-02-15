@@ -12,30 +12,38 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
+import static org.bukkit.Bukkit.getLogger;
+
 public class CraftingRecipeManager {
     FileConfiguration config;
-    MinereignItems plugin;
+    private final MinereignItems plugin;
 
     public CraftingRecipeManager(MinereignItems plugin) {
+        this.plugin = plugin;
         config = plugin.getConfig();
+        loadCustomRecipes();
     }
 
     public void loadCustomRecipes() {
         for (String key : config.getConfigurationSection("recipes.shaped").getKeys(false)) {
-            ItemStack itemResult = new ItemStack(Material.valueOf(config.getString("recipes.shaped." + key + ".result")), config.getInt("recipes.shaped." + key + ".amount"));
-            NamespacedKey recipeKey = new NamespacedKey(plugin, key);
-            ShapedRecipe recipe = new ShapedRecipe(recipeKey, itemResult);
+            try {
+                ItemStack itemResult = new ItemStack(Material.valueOf(config.getString("recipes.shaped." + key + ".result")), config.getInt("recipes.shaped." + key + ".amount"));
+                NamespacedKey recipeKey = new NamespacedKey(plugin, key);
+                ShapedRecipe recipe = new ShapedRecipe(recipeKey, itemResult);
 
-            List<String> shape = config.getStringList("recipes.shaped." + key + ".shape");
-            recipe.shape(shape.toArray(new String[0]));
+                List<String> shape = config.getStringList("recipes.shaped." + key + ".shape");
+                recipe.shape(shape.toArray(new String[0]));
 
-            ConfigurationSection ingredients = config.getConfigurationSection("recipes.shaped." + key + ".ingredients");
-            for (String ingredientKey : ingredients.getKeys(false)) {
-                Material mat = Material.valueOf(ingredients.getString(ingredientKey));
-                recipe.setIngredient(ingredientKey.charAt(0), mat);
+                ConfigurationSection ingredients = config.getConfigurationSection("recipes.shaped." + key + ".ingredients");
+                for (String ingredientKey : ingredients.getKeys(false)) {
+                    Material mat = Material.valueOf(ingredients.getString(ingredientKey));
+                    recipe.setIngredient(ingredientKey.charAt(0), mat);
+                }
+
+                Bukkit.addRecipe(recipe);
+            } catch (IllegalArgumentException e) {
+                getLogger().warning("Unable to load recipe for " + key);
             }
-
-            Bukkit.addRecipe(recipe);
         }
 
         for (String key : config.getConfigurationSection("recipes.shapeless").getKeys(false)) {
@@ -47,7 +55,6 @@ public class CraftingRecipeManager {
             for (String ingredient : ingredients) {
                 recipe.addIngredient(Material.valueOf(ingredient));
             }
-
             Bukkit.addRecipe(recipe);
         }
 
