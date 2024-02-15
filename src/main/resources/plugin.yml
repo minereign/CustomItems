@@ -1,4 +1,4 @@
-name: rareOre
+name: customItems
 version: '${project.version}'
-main: net.serahill.rareore.RareOre
+main: net.serahill.customItems.Customitems
 api-version: '1.20'

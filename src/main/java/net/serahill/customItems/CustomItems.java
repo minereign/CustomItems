@@ -1,4 +1,4 @@
-package net.serahill.rareore;
+package net.serahill.customItems;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
