@@ -6,9 +6,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MinereignCommand implements CommandExecutor {
+    private final CraftingRecipeManager recipeManager;
     private JavaPlugin plugin;
-    public MinereignCommand(JavaPlugin plugin) {
+    public MinereignCommand(MinereignItems plugin) {
         this.plugin = plugin;
+        this.recipeManager = new CraftingRecipeManager(plugin);
     }
 
     @Override
@@ -16,7 +18,9 @@ public class MinereignCommand implements CommandExecutor {
 
         if (command.getName().equalsIgnoreCase("minereign")) {
             if (args.length > 0 && args[0].equalsIgnoreCase("reload") && sender.hasPermission("minereign.reload")) {
+                recipeManager.unregisterRecipes();
                 plugin.reloadConfig();
+                recipeManager.loadCustomRecipes();
                 sender.sendMessage("Configuration reloaded.");
                 return true;
             }
