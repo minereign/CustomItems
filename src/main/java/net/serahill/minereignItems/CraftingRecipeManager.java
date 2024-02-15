@@ -1,4 +1,4 @@
-package net.serahill.customItems;
+package net.serahill.minereignItems;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -14,9 +14,9 @@ import java.util.List;
 
 public class CraftingRecipeManager {
     FileConfiguration config;
-    CustomItems plugin;
+    MinereignItems plugin;
 
-    public CraftingRecipeManager(CustomItems plugin) {
+    public CraftingRecipeManager(MinereignItems plugin) {
         config = plugin.getConfig();
     }
 

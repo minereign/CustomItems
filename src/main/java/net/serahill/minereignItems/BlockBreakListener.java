@@ -1,4 +1,4 @@
-package net.serahill.customItems;
+package net.serahill.minereignItems;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;

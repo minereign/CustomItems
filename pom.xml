@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>net.serahill</groupId>
-  <artifactId>customItems</artifactId>
+  <artifactId>minereignItems</artifactId>
   <version>1.0</version>
   <packaging>jar</packaging>
 
-  <name>customItems</name>
+  <name>minereignItems</name>
 
   <properties>
     <java.version>1.8</java.version>
