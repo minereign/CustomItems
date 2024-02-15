@@ -1,4 +1,4 @@
-name: customItems
+name: minereignItems
 version: '${project.version}'
 main: net.serahill.minereignItems.MinereignItems
 api-version: '1.20'
