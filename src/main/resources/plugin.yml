@@ -2,3 +2,8 @@ name: minereignItems
 version: '${project.version}'
 main: net.serahill.minereignItems.MinereignItems
 api-version: '1.20'
+commands:
+  minereign:
+    description: "Minereign custom items plugin"
+    usage: "/<command> <reload>"
+    permission: "minereignItems.admin"
