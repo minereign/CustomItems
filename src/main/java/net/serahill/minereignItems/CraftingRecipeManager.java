@@ -38,8 +38,12 @@ public class CraftingRecipeManager {
     }
 
     public void registerRecipe(Recipe recipe, NamespacedKey namespacedKey) {
-        Bukkit.addRecipe(recipe);
-        registeredRecipes.put(namespacedKey, recipe);
+        try  {
+            Bukkit.addRecipe(recipe);
+            registeredRecipes.put(namespacedKey, recipe);
+        } catch (IllegalStateException e) {
+            getLogger().warning("Unable to register recipe: " + namespacedKey);
+        }
     }
 
     public void unregisterRecipes() {
